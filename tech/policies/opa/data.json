@@ -1,0 +1,25 @@
+{
+  "clearance_levels": {
+    "Public": 0,
+    "Internal": 1,
+    "Confidential": 2,
+    "Regulated": 3
+  },
+  "label_to_clearance": {
+    "Public": "public",
+    "Internal": "internal",
+    "Confidential": "confidential",
+    "Regulated": "regulated"
+  },
+  "source_boundaries": {
+    "dash": ["dropbox", "dash_tickets"],
+    "external": ["third_party_notes"]
+  },
+  "policy_ids": {
+    "read_public": "pol-001",
+    "read_internal_eng": "pol-002",
+    "read_abac_clearance": "pol-003",
+    "step_up_confidential_regulated": "pol-004",
+    "export_denied_regulated": "pol-005"
+  }
+}

@@ -1,0 +1,23 @@
+Test Document for PII/PHI Redaction
+
+Personal Information:
+- John Doe's SSN is 123-45-6789
+- Credit card: 4532-1234-5678-9012
+- Bank routing: 123456789
+- Email: john.doe@example.com
+- Phone: (555) 123-4567
+- Address: 123 Main Street, Anytown, USA
+- Date of birth: 01/15/1985
+- Credit score: 750
+
+Medical Information:
+- Patient diagnosed with ICD-10 code A41.9
+- Treatment for condition B20.1
+- Medical record shows improvement
+
+Financial Information:
+- Account number: 1234567890123456
+- Bank account: 9876543210987654
+- Investment account: 5555666677778888
+
+This document contains sensitive information that should be redacted based on classification level.

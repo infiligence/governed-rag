@@ -1,0 +1,87 @@
+patterns:
+  - id: "ssn"
+    description: "US Social Security Number"
+    regex: "\\b(?!000|666)[0-8][0-9]{2}-?(?!00)[0-9]{2}-?(?!0000)[0-9]{4}\\b"
+    mask: "XXX-XX-XXXX"
+    category: "PII"
+    
+  - id: "pan"
+    description: "Payment card number (Luhn validation)"
+    regex: "\\b(?:\\d[ -]*?){13,19}\\b"
+    mask_keep_last: 4
+    category: "PII"
+    
+  - id: "routing"
+    description: "US Bank routing number"
+    regex: "\\b\\d{9}\\b"
+    mask: "XXXXXXXXX"
+    category: "PII"
+    
+  - id: "icd10"
+    description: "ICD-10 medical code"
+    regex: "\\b[A-TV-Z][0-9][A-Z0-9](?:\\.[A-Z0-9]{1,4})?\\b"
+    mask: "[ICD10]"
+    category: "PHI"
+    
+  - id: "email"
+    description: "Email address"
+    regex: "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b"
+    mask: "***@***.***"
+    category: "PII"
+    
+  - id: "phone"
+    description: "US phone number"
+    regex: "\\b(?:\\(?([0-9]{3})\\)?[-. ]?)?([0-9]{3})[-. ]?([0-9]{4})\\b"
+    mask: "(XXX) XXX-XXXX"
+    category: "PII"
+    
+  - id: "address"
+    description: "Street address"
+    regex: "\\b\\d+\\s+[A-Za-z0-9\\s,.-]+(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Court|Ct)\\b"
+    mask: "[ADDRESS]"
+    category: "PII"
+    
+  - id: "dob"
+    description: "Date of birth"
+    regex: "\\b(?:0[1-9]|1[0-2])[-/](?:0[1-9]|[12][0-9]|3[01])[-/](?:19|20)\\d{2}\\b"
+    mask: "XX/XX/XXXX"
+    category: "PII"
+    
+  - id: "credit_score"
+    description: "Credit score range"
+    regex: "\\b(?:3[0-4][0-9]|35[0-9]|4[0-9]{2}|5[0-9]{2}|6[0-9]{2}|7[0-9]{2}|8[0-4][0-9]|850)\\b"
+    mask: "[CREDIT_SCORE]"
+    category: "PII"
+    
+  - id: "account_number"
+    description: "Bank account number"
+    regex: "\\b\\d{8,17}\\b"
+    mask: "****-****-****-XXXX"
+    category: "PII"
+
+redaction_rules:
+  - label: "Public"
+    action: "none"
+    description: "No redaction for public documents"
+    
+  - label: "Internal"
+    action: "mask_pii"
+    description: "Mask PII but allow internal access"
+    
+  - label: "Confidential"
+    action: "mask_all"
+    description: "Mask all sensitive information"
+    
+  - label: "Regulated"
+    action: "deny_or_mask"
+    description: "Deny access or heavily mask content"
+
+masking_options:
+  default_mask: "XXXX"
+  preserve_format: true
+  keep_last_digits: 4
+  custom_masks:
+    ssn: "XXX-XX-XXXX"
+    pan: "****-****-****-XXXX"
+    phone: "(XXX) XXX-XXXX"
+    email: "***@***.***"

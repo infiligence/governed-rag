@@ -1,0 +1,35 @@
+{
+  "name": "governed-rag-demo",
+  "version": "1.0.0",
+  "description": "Governed Permission-Aware RAG Demo Framework",
+  "private": true,
+  "workspaces": [
+    "demo/services/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "clean": "npm run clean --workspaces",
+    "dev": "npm run dev --workspaces"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "rag",
+    "governance",
+    "policy",
+    "security",
+    "compliance",
+    "audit",
+    "redaction",
+    "zero-trust"
+  ],
+  "author": "Governed RAG Demo Team",
+  "license": "MIT"
+}

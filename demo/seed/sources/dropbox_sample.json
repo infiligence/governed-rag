@@ -1,0 +1,32 @@
+[
+  {
+    "doc_id": "doc-dropbox-001",
+    "source": "dropbox",
+    "path": "/company/engineering/architecture.md",
+    "title": "System Architecture Overview",
+    "content": "Our system architecture follows a microservices pattern with clear separation of concerns. The main components include the API gateway, authentication service, document processing pipeline, and vector database. We use PostgreSQL with pgvector for storing document embeddings and performing similarity searches. The system is designed to handle high throughput while maintaining data security and compliance requirements.",
+    "mime": "text/markdown",
+    "owner_user_id": "alice@dash",
+    "tenant": "dash"
+  },
+  {
+    "doc_id": "doc-dropbox-002", 
+    "source": "dropbox",
+    "path": "/company/engineering/security-policy.md",
+    "title": "Security Policy and Procedures",
+    "content": "This document outlines our security policies and procedures for handling sensitive data. All employees must follow these guidelines when working with confidential information. Key requirements include: 1) Multi-factor authentication for sensitive systems, 2) Regular security training, 3) Data classification and handling procedures, 4) Incident response protocols. Contact: security@dash.com for questions.",
+    "mime": "text/markdown",
+    "owner_user_id": "alice@dash",
+    "tenant": "dash"
+  },
+  {
+    "doc_id": "doc-dropbox-003",
+    "source": "dropbox", 
+    "path": "/company/hr/employee-handbook.md",
+    "title": "Employee Handbook",
+    "content": "Welcome to Dash! This handbook contains important information about our company policies, benefits, and procedures. Please review this document carefully and contact HR if you have any questions. Our office is located at 123 Main Street, Anytown, USA. Business hours are Monday-Friday, 9 AM to 5 PM. Emergency contact: (555) 123-4567.",
+    "mime": "text/markdown",
+    "owner_user_id": "alice@dash",
+    "tenant": "dash"
+  }
+]

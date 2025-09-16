@@ -1,0 +1,32 @@
+[
+  {
+    "doc_id": "vendor-001",
+    "source": "third_party_notes",
+    "path": "/vendor/contracts/service-agreement.md",
+    "title": "Service Level Agreement",
+    "content": "This document outlines the service level agreement between Dash and our vendor partners. Key metrics include: 99.9% uptime guarantee, 4-hour response time for critical issues, monthly performance reviews. The agreement covers data processing, security requirements, and compliance obligations. Effective date: January 1, 2024. Renewal: Annual review required.",
+    "mime": "text/markdown",
+    "owner_user_id": "rita@vendor",
+    "tenant": "vendor"
+  },
+  {
+    "doc_id": "vendor-002",
+    "source": "third_party_notes",
+    "path": "/vendor/security/data-handling.md",
+    "title": "Data Handling Procedures",
+    "content": "Vendor data handling procedures and security requirements. All vendor personnel must complete security training before accessing Dash systems. Data classification levels: Public, Internal, Confidential, Regulated. Access controls: Role-based permissions, regular access reviews, audit logging required. Incident reporting: Contact security@dash.com within 1 hour of discovery.",
+    "mime": "text/markdown",
+    "owner_user_id": "rita@vendor",
+    "tenant": "vendor"
+  },
+  {
+    "doc_id": "vendor-003",
+    "source": "third_party_notes",
+    "path": "/vendor/meetings/quarterly-review.md",
+    "title": "Q1 2024 Quarterly Review",
+    "content": "Quarterly business review meeting notes. Attendees: Dash leadership team, vendor representatives. Topics discussed: Performance metrics, upcoming projects, budget planning, risk assessment. Key decisions: Increase vendor capacity by 20%, implement new security protocols, schedule next review for April 2024. Action items: Update contracts, conduct security training, prepare Q2 budget proposal.",
+    "mime": "text/markdown",
+    "owner_user_id": "rita@vendor",
+    "tenant": "vendor"
+  }
+]

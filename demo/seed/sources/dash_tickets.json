@@ -1,0 +1,32 @@
+[
+  {
+    "doc_id": "ticket-001",
+    "source": "dash_tickets",
+    "path": "/tickets/engineering/performance-issue.md",
+    "title": "Performance Issue Investigation",
+    "content": "Ticket #1234: Users reporting slow response times on the search functionality. Investigation shows that vector similarity queries are taking longer than expected. Root cause appears to be inefficient indexing strategy. Proposed solution: implement composite indexes and query optimization. Estimated fix time: 2 days. Assigned to: alice@dash. Priority: High.",
+    "mime": "text/markdown",
+    "owner_user_id": "alice@dash",
+    "tenant": "dash"
+  },
+  {
+    "doc_id": "ticket-002",
+    "source": "dash_tickets",
+    "path": "/tickets/legal/compliance-review.md", 
+    "title": "GDPR Compliance Review",
+    "content": "Legal review of our data processing activities under GDPR. Key findings: 1) User consent mechanisms need improvement, 2) Data retention policies require updates, 3) Right to be forgotten implementation needed. Action items: Update privacy policy, implement data deletion workflows, conduct privacy impact assessment. Deadline: Q2 2024. Responsible: sam@legal.",
+    "mime": "text/markdown",
+    "owner_user_id": "sam@legal",
+    "tenant": "dash"
+  },
+  {
+    "doc_id": "ticket-003",
+    "source": "dash_tickets",
+    "path": "/tickets/engineering/security-audit.md",
+    "title": "Security Audit Findings",
+    "content": "Quarterly security audit completed. Findings: 1) Strong password policies in place, 2) MFA implementation successful, 3) Need to update SSL certificates, 4) Penetration testing scheduled for next month. Risk assessment: Low to Medium. Recommendations: Implement automated certificate renewal, enhance logging for security events. Next review: 3 months.",
+    "mime": "text/markdown",
+    "owner_user_id": "alice@dash",
+    "tenant": "dash"
+  }
+]

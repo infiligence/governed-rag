@@ -1,0 +1,65 @@
+{
+  "users": [
+    {
+      "user_id": "alice@dash",
+      "email": "alice@dash.com",
+      "groups": ["eng"],
+      "mfa_level": 1,
+      "attributes": {
+        "clearance": "internal",
+        "department": "engineering",
+        "location": "US"
+      }
+    },
+    {
+      "user_id": "bob@dash", 
+      "email": "bob@dash.com",
+      "groups": ["eng"],
+      "mfa_level": 1,
+      "attributes": {
+        "clearance": "internal",
+        "department": "engineering", 
+        "location": "US"
+      }
+    },
+    {
+      "user_id": "sam@legal",
+      "email": "sam@legal.com", 
+      "groups": ["legal"],
+      "mfa_level": 2,
+      "attributes": {
+        "clearance": "regulated",
+        "department": "legal",
+        "location": "US"
+      }
+    },
+    {
+      "user_id": "rita@vendor",
+      "email": "rita@vendor.com",
+      "groups": ["external"],
+      "mfa_level": 1, 
+      "attributes": {
+        "clearance": "public",
+        "department": "vendor",
+        "location": "US"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "eng",
+      "name": "Engineering",
+      "description": "Engineering team"
+    },
+    {
+      "group_id": "legal", 
+      "name": "Legal",
+      "description": "Legal team"
+    },
+    {
+      "group_id": "external",
+      "name": "External",
+      "description": "External vendors"
+    }
+  ]
+}

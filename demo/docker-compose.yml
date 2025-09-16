@@ -1,0 +1,138 @@
+version: '3.8'
+
+services:
+  # PostgreSQL with pgvector
+  postgres:
+    image: pgvector/pgvector:pg15
+    environment:
+      POSTGRES_DB: govrag
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../../tech/storage/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and sessions
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # OPA (Open Policy Agent)
+  opa:
+    image: openpolicyagent/opa:latest
+    command: >
+      run --server
+      --set=decision_logs.console=true
+      /policies
+    ports:
+      - "8181:8181"
+    volumes:
+      - ../../tech/policies/opa:/policies
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8181/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Python Classifier Service
+  classifier:
+    build:
+      context: ./services/classifier
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ../../tech/redaction:/app/tech/redaction
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PDP Wrapper Service
+  pdp:
+    build:
+      context: ./services/pdp
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - OPA_URL=http://opa:8181
+      - PORT=3001
+    depends_on:
+      - opa
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Gateway API Service
+  gateway-api:
+    build:
+      context: ./services/gateway-api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/govrag
+      - REDIS_URL=redis://redis:6379
+      - PDP_URL=http://pdp:3001
+      - JWT_SECRET=dev_only_change_me
+      - TENANT=dash
+      - PORT=8080
+    depends_on:
+      - postgres
+      - redis
+      - pdp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Indexer Service (one-shot)
+  indexer:
+    build:
+      context: ./services/indexer
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/govrag
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=govrag
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./seed:/app/seed
+    depends_on:
+      postgres:
+        condition: service_healthy
+      classifier:
+        condition: service_healthy
+    profiles:
+      - indexing
+
+volumes:
+  postgres_data:
+  redis_data:
