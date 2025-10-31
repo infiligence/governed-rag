@@ -42,6 +42,94 @@ This demo implements a governed RAG system with the following components:
 - ⚡ **Step-up Authentication** - MFA for sensitive content
 - 📋 **Export Controls** - Policy-based export restrictions
 
+## Next-Gen Extensions
+
+This repository can be extended with production-grade capabilities that preserve zero-trust guarantees while improving reliability and compliance:
+
+1. **Dynamic Policy Learning** — Auto-suggest OPA/Cedar rule updates from audit + usage deltas.
+2. **Federated Retrieval** — Query multiple governed indexes with per-source policy enforcement.
+3. **Explainable Access** — Show the exact policy, attributes, and evidence that allowed/blocked each chunk.
+4. **Self-Healing Policies** — Detect PDP–service drift and auto-generate corrective patches with tests.
+5. **Data Lineage Graph** — Provenance across source → classify → redact → retrieve → answer.
+6. **Guardrails DSL** — Declarative checks (hallucination, sensitive data leakage, tone, jailbreaks).
+7. **Continuous Compliance Simulator** — Scheduled role-based probes to catch policy leaks.
+8. **Adaptive Redaction** — Semantic masking using LLM+NER ensembles; confidence-weighted.
+9. **Policy-Driven Prompt Orchestration** — Role/classification-aware prompt clauses and response headers.
+10. **Tamper-Evident Ledger** — Append-only hash chain for policy and high-risk reads.
+
+### Architecture fit
+
+```mermaid
+flowchart LR
+  User -->|AuthZ attrs| Gateway
+  subgraph Core
+    Gateway --> Retriever
+    Retriever --> Index[(Vector + Metadata)]
+    Gateway --> PDP[Policy Decision Point (OPA/Cedar)]
+    Gateway --> Redactor
+  end
+  subgraph Extensions
+    GuardrailsDSL[Guardrails DSL] --> Gateway
+    Explainable[Explainable Access] --> Gateway
+    SelfHealing[Self-Healing Policies] --> PDP
+    ComplianceSim[Compliance Simulator] --> Gateway
+    Lineage[Lineage Emitter] --> Ledger[(Append-only Ledger)]
+    Federation[Federated Retrieval] --> Retriever
+  end
+  Gateway -->|events| Lineage
+  Retriever -->|evidence| Explainable
+  PDP -->|decisions| Explainable
+  Federation -->|remote indexes| Index
+```
+
+### Example: Guardrails DSL (starter)
+
+```yaml
+# tech/guardrails/guardrails.dsl.yaml
+version: 0.1
+checks:
+  - id: hallucination_score
+    when: post_generation
+    run:
+      type: llm_judge
+      input: "{{answer}}"
+    assert:
+      - op: lte
+        key: score
+        value: 0.2
+    on_fail:
+      action: "fallback_or_refuse"
+      message: "Low confidence in factuality."
+
+  - id: pii_leakage
+    when: pre_return
+    run:
+      type: pii_scan
+      input: "{{answer}}"
+    assert:
+      - op: eq
+        key: detected
+        value: false
+    on_fail:
+      action: "mask_and_log"
+```
+
+### Example: Hallucination policy
+
+See [tech/guardrails/examples/hallucination-policy.yaml](tech/guardrails/examples/hallucination-policy.yaml) for a concrete instance with thresholds and remediation.
+
+### Self-healing policies
+
+See [tech/policies/self_healing_policies.md](tech/policies/self_healing_policies.md) for the drift detectors, test harness, and auto-patch workflow.
+
+### Data lineage
+
+See [tech/lineage/lineage.md](tech/lineage/lineage.md) for the event schema and emission points.
+
+### Compliance simulator
+
+Run [demo/scripts/simulate_compliance.sh](demo/scripts/simulate_compliance.sh) to probe policy coverage with synthetic roles.
+
 ## 📁 Project Structure
 
 ```
