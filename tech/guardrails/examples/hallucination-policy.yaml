@@ -1,0 +1,9 @@
+policy: hallucination
+target: post_generation
+judge: llm_judge
+threshold: 0.2   # lower is stricter
+remediation:
+  - try: "retrieve_more_context"
+  - try: "fallback_model"
+  - finally: "refuse_with_message"
+
