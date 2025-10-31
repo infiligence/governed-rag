@@ -133,6 +133,98 @@ services:
     profiles:
       - indexing
 
+  # Explain Service
+  explain:
+    build:
+      context: ./services/explain
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/govrag
+      - PDP_URL=http://pdp:3001
+      - PORT=3003
+    depends_on:
+      - postgres
+      - pdp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Lineage Service
+  lineage:
+    build:
+      context: ./services/lineage
+      dockerfile: Dockerfile
+    ports:
+      - "3004:3004"
+    environment:
+      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/govrag
+      - PORT=3004
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Federation Service
+  federation:
+    build:
+      context: ./services/federation
+      dockerfile: Dockerfile
+    ports:
+      - "3005:3005"
+    environment:
+      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/govrag
+      - PDP_URL=http://pdp:3001
+      - PORT=3005
+    depends_on:
+      - postgres
+      - pdp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3005/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Guardrails Service
+  guardrails:
+    build:
+      context: ./services/guardrails
+      dockerfile: Dockerfile
+    ports:
+      - "3006:3006"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ../../tech/guardrails:/app/tech/guardrails
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3006/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redactor Service
+  redactor:
+    build:
+      context: ./services/redactor
+      dockerfile: Dockerfile
+    ports:
+      - "3007:3007"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ../../tech/redaction:/app/tech/redaction
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3007/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres_data:
   redis_data:
